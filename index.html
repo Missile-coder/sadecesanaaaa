@@ -17,7 +17,7 @@ html, body {
     width: 100%;
     height: 100%;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-    overflow: hidden;
+    overscroll-behavior: none;
 }
 
 body {
@@ -25,9 +25,10 @@ body {
     color: #f3e8ff;
 }
 
+/* TAM EKRAN – iOS UYUMLU */
 .screen {
-    position: fixed;
-    inset: 0;
+    min-height: 100svh;
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -76,7 +77,7 @@ button {
 
 .fade {
     opacity: 0;
-    transition: opacity 1.5s ease;
+    transition: opacity 1.4s ease;
 }
 
 .fade.show {
@@ -84,8 +85,8 @@ button {
 }
 
 #text {
-    margin-top: 28px;
-    font-size: 1.3em;
+    margin-top: 26px;
+    font-size: 1.25em;
     line-height: 1.6;
 }
 </style>
@@ -111,12 +112,13 @@ button {
         <button onclick="start()">Hazırım</button>
 
         <img id="photo" class="hidden"
-             src="https://i.imgur.com/f5WP6cB.jpeg">
+             src="https://i.imgur.com/f5WP6cB.jpeg"
+             alt="Sana Özel">
 
         <div id="text" class="fade"></div>
     </div>
 
-    <audio id="music" preload="auto" loop>
+    <audio id="music" loop preload="auto">
         <source src="https://files.catbox.moe/2wtpw1.mp3" type="audio/mpeg">
     </audio>
 </div>
@@ -146,28 +148,27 @@ function start() {
     const photo = document.getElementById("photo");
     const text = document.getElementById("text");
 
+    /* iOS GARANTİ ÇALMA */
     music.play().catch(()=>{});
 
-    setTimeout(() => {
-        photo.classList.remove("hidden");
-        showTexts(text);
-    }, 1200);
-}
+    photo.classList.remove("hidden");
 
-function showTexts(el) {
     let i = 0;
-    el.classList.add("show");
-    const loop = setInterval(() => {
-        el.classList.remove("show");
-        setTimeout(() => {
-            el.innerHTML = texts[i];
-            el.classList.add("show");
-            i++;
-            if (i >= texts.length) clearInterval(loop);
-        }, 600);
-    }, 4500);
+    setTimeout(() => {
+        text.classList.add("show");
+        const loop = setInterval(() => {
+            text.classList.remove("show");
+            setTimeout(() => {
+                text.innerHTML = texts[i];
+                text.classList.add("show");
+                i++;
+                if (i >= texts.length) clearInterval(loop);
+            }, 500);
+        }, 4200);
+    }, 1200);
 }
 </script>
 
 </body>
 </html>
+
